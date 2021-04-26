@@ -25,6 +25,7 @@ opencv-contrib-python==4.5.1.48
 packaging==20.3
 pep517==0.8.2
 progress==1.5
+psycopg2-binary==2.8.6
 pyparsing==2.4.6
 PySocks==1.7.1
 pytoml==0.1.21
