@@ -11,7 +11,7 @@ from database.models import YakudoScore
 auth = tweepy.OAuthHandler(os.environ.get('CONSUMER_KEY'),os.environ.get('CONSUMER_SECRET'))
 auth.set_access_token(os.environ.get('ACCESS_TOKEN_KEY'), os.environ.get('ACCESS_TOKEN_SECRET'))
 api = tweepy.API(auth)
-keyword= ['#yakudotest']
+keyword= ['#mis1yakudo']
 
 botname = "mis1yakudo334"
 

@@ -52,10 +52,4 @@ def timed_job():
 
 
 if __name__ == "__main__":
-    print("initialized Scheduled Task")
-    yakudos = YakudoScore.query.filter(YakudoScore.date == datetime.datetime.now().strftime('%Y-%m-%d')).all()
-    if len(yakudos) == 0:
-        api.update_status("おいお前ら!早くyakudoしろ!("+datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+")")
-    else:
-        api.update_status("本日のyakudo:" + str(len(yakudos)) + "件("+datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+")")
     twische.start()
