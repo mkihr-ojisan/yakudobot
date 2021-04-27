@@ -40,7 +40,8 @@ def checkyakudo(url):
 
 def runtask(status):
     print(status.user.screen_name)
-    if status.user.screen_name != botname:
+    print(status.text)
+    if status.user.screen_name != botname and not status.text.startswith("rt @"):
         url = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str
         msg = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+"\n"
         msg += "User:@"+status.user.screen_name + "\n"
@@ -72,11 +73,16 @@ def runtask(status):
             msg += "画像が入ってないやん!\n"
             msg += "Score:-inf\n"
             yakudo.score = 0
+        userid = status.user.id
         api.update_status(msg + url)
         api.create_friendship(status.user.id)
-        userid = status.user.id
         db.session.add(yakudo)
         db.session.commit()
+        yakudo = None
+        msg = ""
+        url = ""
+        userid = None
+
 
 def start_monitoring():
     print("start monitoring")
