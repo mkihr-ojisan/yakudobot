@@ -40,8 +40,7 @@ def checkyakudo(url):
 
 def runtask(status):
     print(status.user.screen_name)
-    print(status.text)
-    if status.user.screen_name != botname and not status.text.startswith("rt @"):
+    if status.user.screen_name != botname and not status.text.startswith("RT @"):
         url = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str
         msg = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+"\n"
         msg += "User:@"+status.user.screen_name + "\n"
