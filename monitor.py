@@ -7,6 +7,7 @@ from threading import Thread
 import cv2
 from main import db
 from database.models import YakudoScore
+import traceback
 
 auth = tweepy.OAuthHandler(os.environ.get('CONSUMER_KEY'),os.environ.get('CONSUMER_SECRET'))
 auth.set_access_token(os.environ.get('ACCESS_TOKEN_KEY'), os.environ.get('ACCESS_TOKEN_SECRET'))
@@ -82,14 +83,16 @@ def start_monitoring():
     print("start monitoring")
     while True:
         try:
-            if yakudo == None and msg == "" and url == "":
+            if yakudo is not None and msg != "" and url != "":
                 api.update_status(msg + url)
                 api.create_friendship(userid)
                 db.session.add(yakudo)
                 db.session.commit()
+            print("start streaming")
             myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
             myStream.filter(track=keyword)
         except:
+            traceback.print_exc()
             continue
 
 if __name__ == "__main__":
