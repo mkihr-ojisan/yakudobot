@@ -13,7 +13,7 @@ auth.set_access_token(os.environ.get('ACCESS_TOKEN_KEY'), os.environ.get('ACCESS
 api = tweepy.API(auth)
 keyword= ['#mis1yakudo']
 
-botname = "mis1yakudo334"
+botname = "nishinomiya443"
 
 class MyStreamListener(tweepy.StreamListener):
 
