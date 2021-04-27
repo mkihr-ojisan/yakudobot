@@ -33,7 +33,7 @@ def checkyakudo(url):
     return result
 
 def runtask(status):
-    print("getmessage")
+    print(status.user.screen_name)
     if status.user.screen_name != botname:
         url = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str
         msg = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+"\n"
@@ -41,7 +41,6 @@ def runtask(status):
         # yakudo_check_block
         yakudo = YakudoScore(username=status.user.screen_name,tweetid=status.id_str,date=datetime.datetime.now().strftime('%Y-%m-%d'))
         if hasattr(status, 'extended_entities'):
-            print(status.extended_entities)
             finalscore = 0
             count = 0
             isphoto = True
@@ -58,9 +57,8 @@ def runtask(status):
                 childtext = "{:.0f}枚目:{:.3f}\n"
                 msg += childtext.format(count, score)
                 yakudo.score = score
-                print(msg)
             if isphoto:
-                finalscore //= count
+                finalscore /= count
                 msg += "GoodYakudo!\n" if finalscore >= 150 else "もっとyakudoしろ！\n"
                 finaltext = "Score:{:.3f}\n"
                 msg += finaltext.format(finalscore)
@@ -68,10 +66,10 @@ def runtask(status):
             msg += "画像が入ってないやん!\n"
             msg += "Score:-inf\n"
             yakudo.score = 0
-        db.session.add(yakudo)
-        db.session.commit()
         api.update_status(msg + url)
         api.create_friendship(status.user.id)
+        db.session.add(yakudo)
+        db.session.commit()
 
 def start_monitoring():
     myStreamListener = MyStreamListener()
