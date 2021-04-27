@@ -15,6 +15,11 @@ keyword= ['#mis1yakudo']
 
 botname = "nishinomiya443"
 
+yakudo = None
+msg = ""
+url = ""
+userid = None
+
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
@@ -68,14 +73,24 @@ def runtask(status):
             yakudo.score = 0
         api.update_status(msg + url)
         api.create_friendship(status.user.id)
+        userid = status.user.id
         db.session.add(yakudo)
         db.session.commit()
 
 def start_monitoring():
     myStreamListener = MyStreamListener()
     print("start monitoring")
-    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-    myStream.filter(track=keyword)
+    while True:
+        try:
+            if yakudo == None and msg == "" and url == "":
+                api.update_status(msg + url)
+                api.create_friendship(userid)
+                db.session.add(yakudo)
+                db.session.commit()
+            myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+            myStream.filter(track=keyword)
+        except:
+            continue
 
 if __name__ == "__main__":
     start_monitoring()

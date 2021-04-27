@@ -38,10 +38,6 @@ def timed_job():
         else:
             api.update_status("本日のyakudo:" + str(len(yakudos)) + "件(" + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + ")")
         print("ScheduledTask Complete")
-    elif now.minute == 30:
-        proc = subprocess.run(
-            'curl -X DELETE "https://api.heroku.com/apps/'+os.environ.get('APP_NAME')+'/dynos" --user "'+os.environ.get('CLI_USER')+':'+os.environ.get('CLI_TOKEN')+'" -H "Content-Type: application/json" -H "Accept: application/vnd.heroku+json; version=3"',
-            shell=True, stdout=PIPE, stderr=PIPE, text=True)
     elif now.minute == 59 and now.hour == 23:
         yakudos = YakudoScore.query.filter(YakudoScore.date == datetime.datetime.now().strftime('%Y-%m-%d')).all()
         maxscore = 0
