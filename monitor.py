@@ -79,7 +79,6 @@ def runtask(status):
         db.session.commit()
 
 def start_monitoring():
-    myStreamListener = MyStreamListener()
     print("start monitoring")
     while True:
         try:
@@ -89,7 +88,7 @@ def start_monitoring():
                 db.session.add(yakudo)
                 db.session.commit()
             print("start streaming")
-            myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+            myStream = tweepy.Stream(auth=api.auth, listener=MyStreamListener())
             myStream.filter(track=keyword)
         except:
             traceback.print_exc()
