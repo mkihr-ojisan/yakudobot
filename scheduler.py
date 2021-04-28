@@ -43,14 +43,20 @@ def timed_job():
         maxscore = 0
         maxuser = ""
         maxtweetid = ""
-        for yakudo in yakudos:
-            if yakudo.score > maxscore:
-                maxscore = yakudo.score
-                maxtweetid = yakudo.tweetid
-                maxuser = yakudo.username
-        msg = "Highest Score:{:.3f}\n優勝おめでとう!\n".format(maxscore)
-        url = "https://twitter.com/" + maxuser + "/status/" + maxtweetid
-        api.update_status(msg + url)
+        if len(yakudos) == 0:
+            api.update_status("本日のyakudoは...何一つ...出ませんでした...")
+        else:
+            for yakudo in yakudos:
+                if yakudo.score > maxscore:
+                    maxscore = yakudo.score
+                    maxtweetid = yakudo.tweetid
+                    maxuser = yakudo.username
+            if maxscore > 0:
+                msg = "Highest Score:{:.3f}\n優勝おめでとう!\n".format(maxscore)
+                url = "https://twitter.com/" + maxuser + "/status/" + maxtweetid
+                api.update_status(msg + url)
+            else:
+                api.update_status("おい待てや...今日のyakudo...-inf点しか無いやん...")
 
 
 if __name__ == "__main__":
