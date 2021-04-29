@@ -67,6 +67,7 @@ def timed_job():
                 time.sleep(1)
                 api.destroy_status(yakudo.retweetid)
                 YakudoScore.query.filter(YakudoScore.tweetid == yakudo.tweetid).delete()
+                db.session.commit()
             count+=1
             time.sleep(1)
             if count >= 200:
