@@ -57,6 +57,22 @@ def timed_job():
                 api.update_status(msg + url)
             else:
                 api.update_status("おい待てや...今日のyakudo...-inf点しか無いやん...")
+    elif now.minute == 500:
+        print("Checking Database")
+        yakudos = YakudoScore.query.filter(YakudoScore.date == datetime.datetime.now().strftime('%Y-%m-%d')).all()
+        count = 0
+        for yakudo in yakudos:
+            if yakudo.score > maxscore:
+                maxscore = yakudo.score
+                maxtweetid = yakudo.tweetid
+                maxuser = yakudo.username
+        YakudoScore.query.filter(YakudoScore.tweetid == "1387621068945313798").delete()
+        try:
+            tweet = api.get_status("1387621068945313798")
+            print(tweet)
+        except:
+            tweet = api.search(expanded_url="https://twitter.com/tamacake39/status/1387621068945313798")
+            print("Tweet Not Found")
 
 
 if __name__ == "__main__":

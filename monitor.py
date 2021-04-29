@@ -73,8 +73,9 @@ def runtask(status):
             msg += "Score:-inf\n"
             yakudo.score = 0
         userid = status.user.id
-        api.update_status(msg + url)
+        new_tweet = api.update_status(msg + url)
         api.create_friendship(status.user.id)
+        yakudo.retweetid = new_tweet.id_str
         db.session.add(yakudo)
         db.session.commit()
         yakudo = None
@@ -88,8 +89,9 @@ def start_monitoring():
     while True:
         try:
             if yakudo is not None and msg != "" and url != "":
-                api.update_status(msg + url)
+                new_tweet = api.update_status(msg + url)
                 api.create_friendship(userid)
+                yakudo.retweetid = new_tweet.id_str
                 db.session.add(yakudo)
                 db.session.commit()
             print("start streaming")

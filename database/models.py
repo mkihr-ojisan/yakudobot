@@ -7,6 +7,7 @@ class YakudoScore(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text)
     tweetid = db.Column(db.Text)
+    retweetid = db.Column(db.Text)
     score = db.Column(db.Float)
     date = db.Column(db.Text, nullable=False)
 
