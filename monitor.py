@@ -38,9 +38,16 @@ def checkyakudo(url):
     result = (1/cv2.Laplacian(img, cv2.CV_64F).var())*10000 # yakudoスコアの計算
     return result
 
+    isquotetweet = False
+    if not keyword[0] in tweet and "twitter.com/" in tweet and "/status" in tweet:
+        isquotetweet = True
+
 def runtask(status):
     print(status.user.screen_name)
-    if status.user.screen_name != botname and not status.text.startswith("RT @"):
+    isquotetweet = False
+    if not keyword[0] in status.text and "twitter.com/" in status.text and "/status" in status.text:
+        isquotetweet = True
+    if status.user.screen_name != botname and not status.text.startswith("RT @") and not isquotetweet:
         url = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str
         msg = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+"\n"
         msg += "User:@"+status.user.screen_name + "\n"
