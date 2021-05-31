@@ -43,7 +43,7 @@ def checkyakudo(url):
         isquotetweet = True
 
 def runtask(status):
-    print(status.user.screen_name)
+    print(status.text)
     isquotetweet = False
     if not keyword[0] in status.text and "twitter.com/" in status.text and "/status" in status.text:
         isquotetweet = True
